@@ -1,16 +1,20 @@
 
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router"
+import { useDispatch,useSelector } from "react-redux";
+import { setrestdata } from "../Stored/restmenuslice";
 import Menucard from "./Menucard";
 export default function Restaurantmenu()
 {
+    const dispatch = useDispatch();
+       const restdata = useSelector((state)=>state.menuslice.restdata);
     let {id}=useParams();
-    const [restdata,setrestdata]=useState([]);
+    // const [restdata,setrestdata]=useState([]);
      const [selected,setselected]=useState(null);
 
     useEffect(()=>{
         async function  fetchdata() {
-
+            //  dispatch(setrestdata([]));
             const proxyserver="https://cors-anywhere.herokuapp.com/";
             const swiggy=`https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=28.7040592&lng=77.10249019999999&restaurantId=${id}&catalog_qa=undefined&submitAction=ENTER`
             const response = await fetch(proxyserver+swiggy);
@@ -18,8 +22,8 @@ export default function Restaurantmenu()
             
             const tempdata=data?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards;
            const filterdata= tempdata.filter((file)=>"title" in file?.card?.card);
-            console.log(filterdata);
-            setrestdata(filterdata);
+           dispatch(setrestdata(filterdata))
+            
             
     }
     fetchdata();
@@ -38,7 +42,7 @@ export default function Restaurantmenu()
             </div>
         <div className="w-[80%] mx-auto mt-20">
             {
-                restdata.map((items)=><Menucard key={items?.card?.card?.title}  menuItems={items?.card?.card} selected={selected}></Menucard>)
+                restdata?.map((items)=><Menucard key={items?.card?.card?.title}  menuItems={items?.card?.card} selected={selected}></Menucard>)
             }
         </div>
         </div>

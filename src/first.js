@@ -6,6 +6,7 @@ import Home from "./Components/Home";
 import Restaurantmenu from "./Components/Restaurantmenu";
 import SearchFood from "./Components/SearchFood";
 import Secondaryhome from "./Components/Secondaryhome";
+// import Checkout from "./Components/Checkout";
 import Checkout from "./Components/Checkout";
 import { store } from "./Stored/stores";
 import {Provider} from "react-redux";

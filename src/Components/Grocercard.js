@@ -3,7 +3,6 @@
 export default function Grocercard({Grocerdata})
 {
 
-    
     return(
         <div className="flex-none ">
         <a href={Grocerdata?.action?.link}>

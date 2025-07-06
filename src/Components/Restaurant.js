@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import Restcard from "./Restcard";
 import Shimmerefect from "./Shimmerefect";
+import { useDispatch, useSelector } from "react-redux";
+import { setRestData } from "../Stored/restSlice";
 export default function Restaurant()
 {
-    const [restdata,setrestdata]=useState([])
+    const dispatch = useDispatch();
+  const restdata = useSelector((state) => state.restaurants.restdata);
+    
 
     useEffect(()=>{
         async function fetchdata() {
@@ -12,11 +16,17 @@ export default function Restaurant()
           const response=await  fetch(proxyserver+swiggyapi)
             const data = await response.json();
 
-            setrestdata(data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+             dispatch(
+          setRestData(
+            data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+              ?.restaurants || []
+          )
+        );
+            
        
         }
         fetchdata();
-    },[])
+    },[restdata,dispatch])
     if(restdata.length==0)
         return <Shimmerefect/>
     
